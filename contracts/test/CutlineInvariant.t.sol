@@ -26,7 +26,7 @@ contract CutlineHandler is Test {
     activeId = cutline.create("Handler Line", ENTRY_FEE, STEP_PRICE);
   }
 
-  function join(uint256 actorIdx) external {
+  function joinLine(uint256 actorIdx) external {
     address actor = actors[actorIdx % actors.length];
     (bool live,,) = cutline.positionOf(activeId, actor);
     if (!live) {
@@ -35,7 +35,7 @@ contract CutlineHandler is Test {
     }
   }
 
-  function skip(uint256 actorIdx, uint8 stepsSeed) external {
+  function skipInLine(uint256 actorIdx, uint8 stepsSeed) external {
     address actor = actors[actorIdx % actors.length];
     (bool live, uint32 pos,) = cutline.positionOf(activeId, actor);
     if (live && pos > 1) {
