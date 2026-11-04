@@ -1,13 +1,15 @@
 import React from "react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger" | "outline";
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "danger" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
+  loading?: boolean;
 }
 
 export function Button({
   variant = "primary",
   size = "md",
+  loading = false,
   className = "",
   disabled,
   children,
@@ -30,13 +32,24 @@ export function Button({
     baseStyles += "bg-[var(--danger)] text-white hover:bg-red-700 focus:ring-[var(--danger)] ";
   } else if (variant === "outline") {
     baseStyles += "border border-[var(--border-default)] bg-transparent text-[var(--text-primary)] hover:bg-white/20 focus:ring-[var(--text-primary)] ";
+  } else if (variant === "ghost") {
+    baseStyles += "bg-transparent text-[var(--text-primary)] hover:bg-white/20 focus:ring-[var(--accent)] ";
   } else {
     baseStyles += "bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-default)] hover:bg-orange-50 focus:ring-[var(--accent)] ";
   }
 
   return (
-    <button className={`${baseStyles} ${className}`} disabled={disabled} {...props}>
-      {children}
+    <button className={`${baseStyles} ${className}`} disabled={disabled || loading} {...props}>
+      {loading ? (
+        <span className="inline-flex items-center gap-2">
+          <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+          <span>{children}</span>
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 }
+
+export default Button;

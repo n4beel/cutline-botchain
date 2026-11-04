@@ -92,3 +92,10 @@ export function rowsForPath<T>(items: readonly T[], columnsPerRow: number = 5): 
 
   return rows;
 }
+
+import { formatEther } from "viem";
+
+export function formatBOT(wei: bigint): string {
+  const formatted = formatEther(wei);
+  return `${formatted} BOT`;
+}
